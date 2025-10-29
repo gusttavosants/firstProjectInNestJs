@@ -22,13 +22,8 @@ export class CustomersController {
                 return this.customersService.remove(id)
             }
 
-
         @Put('/update/:id')
             update(@Body()updateBody:CreateUpdateDTO, @Param('id')id:number){
                 return this.customersService.update(id,updateBody)
-            }
-
-
-
-        
+            }      
 }

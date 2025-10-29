@@ -6,7 +6,6 @@ import { find } from 'rxjs';
 @Injectable()
 export class CustomersService {
     private customers;
-
     constructor(){
         this.customers = [{
             "id":0,
@@ -25,12 +24,9 @@ export class CustomersService {
         },
     ]
     }
-
-
     findAll(){
         return this.customers
     }
-
     create(customer:CreateCustomersDTO){
         const last_id:number = this.customers[this.customers.length - 1].id
 
@@ -45,7 +41,6 @@ export class CustomersService {
             "message":"Nome e Email Criado"
         }
     }
-
     remove(id:number){
         this.customers = this.customers.filter((customer)=> customer.id != id)
 

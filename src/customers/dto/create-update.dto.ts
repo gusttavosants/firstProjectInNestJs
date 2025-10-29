@@ -1,9 +1,15 @@
-import { UploadedFile } from "@nestjs/common";
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 
 
 export class CreateUpdateDTO{
+    @MinLength(3)
+    @IsString()
+    @IsNotEmpty()
     
-    email:string;
     nome:string
+
+    @IsEmail()
+    email:string
+        
 }
