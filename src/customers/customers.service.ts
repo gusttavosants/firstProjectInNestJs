@@ -1,7 +1,8 @@
 import { Body, Injectable } from '@nestjs/common';
 import { CreateCustomersDTO } from './dto/create-customers.dto';
 import { CreateUpdateDTO } from './dto/create-update.dto';
-import { find } from 'rxjs';
+import { NotFoundError } from 'rxjs';
+
 
 @Injectable()
 export class CustomersService {
@@ -56,9 +57,9 @@ export class CustomersService {
         const findIndex = this.customers.findIndex((customers) => customers.id === targetId)
 
             if (findIndex == -1){
-                return{
-                    "message" : "cliente nao encontrado"
-                }
+                
+                    throw new NotFoundError("Customer not found")
+                
             }
         const arrayAtt = {
             "id" : targetId,
