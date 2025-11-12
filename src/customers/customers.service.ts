@@ -24,9 +24,11 @@ private customersRepository:Repository <Customers>){}
         await this.customersRepository.delete(id);
     }
 
-    create(customer:CreateCustomersDTO): Promise<Customers>{
+    async create(customer:CreateCustomersDTO): Promise<Customers>{
         const newCustomer = this.customersRepository.create(customer);
-        return this.customersRepository.save(newCustomer);
+        await this.customersRepository.save(newCustomer);
+
+        return { 'message':'Cliente criado com sucesso' } as any;
     }
     update(id:number, updateBody:CreateUpdateDTO): Promise<Customers | null>{
         return this.customersRepository.update(id, updateBody).then(() => {

@@ -23,9 +23,10 @@ export class ProductsService {
         await this.productsRepository.delete(id);
     }
 
-    create(customer:UpsertProductDTO): Promise<Product>{
+    async create(customer:UpsertProductDTO): Promise<Product>{
         const newCustomer = this.productsRepository.create(customer);
-        return this.productsRepository.save(newCustomer);
+        await this.productsRepository.save(newCustomer);
+        return { 'message':'Produto criado com sucesso' } as any;
     }
     update(id:number, updateBody:UpsertProductDTO): Promise<Product | null>{
         return this.productsRepository.update(id, updateBody).then(() => {

@@ -21,9 +21,10 @@ export class EmployeeService {
             await this.customersRepository.delete(id);
         }
 
-        create(customer:CreateEmployeeDTO): Promise<Employee>{
+       async create(customer:CreateEmployeeDTO): Promise<Employee>{
             const newCustomer = this.customersRepository.create(customer);
-            return this.customersRepository.save(newCustomer);
+             await this.customersRepository.save(newCustomer);
+             return { 'message':'Funcionario criado com sucesso' } as any;
         }
         update(id:number, updateBody:CreateEmployeeDTO): Promise<Employee | null>{
             return this.customersRepository.update(id, updateBody).then(() => {
