@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { CustomersModule } from './customers/customers.module';
 import { EmployeeModule } from './employee/employee.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { Customers } from './customers/customers.entity';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -13,7 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     username: 'root',
     password: '',
     database: 'curso',
-    entities: [],
+    autoLoadEntities: true,
     synchronize: false,  // importante! false em produção
     logging: true,
 }),
@@ -22,4 +24,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) { }
+}
