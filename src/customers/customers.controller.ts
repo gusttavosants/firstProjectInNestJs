@@ -11,7 +11,11 @@ export class CustomersController {
             findAll():any{
                 return this.customersRepository.findall()
             }
-
+        
+        @Get('/findall/:id')
+        findOne(@Param('id')id:number){
+            return this.customersRepository.findOne(id);
+            }    
         @Post('/add')
             create(@Body()customerBody:CreateCustomersDTO){
                 return this.customersRepository.create(customerBody)

@@ -7,8 +7,8 @@ export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService){}
 
     @Get('/findall')
-    findAll():String{
-        return this.employeeService.findAll();
+    findAll():any{
+        return this.employeeService.findall();
     }
 
     @Get('/findall/:id')

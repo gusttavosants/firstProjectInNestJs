@@ -1,76 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDTO } from './dto/create-employee.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Employee } from './employee.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class EmployeeService {
-    private employee;
-    constructor(){
-        this.employee = [{
-            "id":0,
-            "name":"John Robinson"
-        },
-        {
-            "id":1,
-            "name":"Will Robinson"
-        }]
-    }
+export class EmployeeService { 
+    constructor(@InjectRepository(Employee)
+        private customersRepository:Repository <Employee>){}
 
-    findAll(){
-        return this.employee
-    }
+        findall(): Promise<Employee[]> {
+            return this.customersRepository.find();
+        } 
 
-
-    findOne(id:number){
-        const nomeEncontrado = this.employee.find(pessoa => pessoa.id == id)
-        return  nomeEncontrado
-        
-    }
-
-    create(employee:CreateEmployeeDTO){
-        const last_id:number = this.employee[this.employee.length - 1].id
-
-
-        
-        const newEmployee = {
-            "id" : last_id + 1,
-            ...employee
+        findOne(id: number): Promise<Employee | null>{
+            return this.customersRepository.findOneBy({id});
         }
-        this.employee.push(newEmployee);
-        return {
-            "message":"Nome Adicionado"
+
+        async remove(id:number): Promise<void>{
+            await this.customersRepository.delete(id);
         }
-    }
 
-    remove(id:number){
-        this.employee = this.employee.filter((employee)=> employee.id != id)
-        return {
-            "message": "Nome deletado",
-            
+        create(customer:CreateEmployeeDTO): Promise<Employee>{
+            const newCustomer = this.customersRepository.create(customer);
+            return this.customersRepository.save(newCustomer);
         }
+        update(id:number, updateBody:CreateEmployeeDTO): Promise<Employee | null>{
+            return this.customersRepository.update(id, updateBody).then(() => {
+                return this.customersRepository.findOneBy({id});
+        });
     }
-
-    update(id:number,updateBody:CreateEmployeeDTO){
-        const targetId = Number(id);
-        const findIndex = this.employee.findIndex((employee) => employee.id === targetId)
-
-            if (findIndex == -1){
-                
-                    throw new Error('Nome nao encontrado')
-                
-            }
-
-            const updatedEmployee = {
-                "id" : targetId,
-                ...updateBody
-            }
-
-            this.employee[findIndex] = updatedEmployee;
-
-            this.employee  = this.employee.toSpliced(findIndex,1,updatedEmployee)
-        return {
-            "message":"a lista foi atualizada",
-            "lista": this.employee
-        }
-    }
-    }
- 
+}
