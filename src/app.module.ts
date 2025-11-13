@@ -5,7 +5,7 @@ import { CustomersModule } from './customers/customers.module';
 import { EmployeeModule } from './employee/employee.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Customers } from './customers/customers.entity';
+import { Customers } from './customers/entity/customers.entity';
 import { ProductsModule } from './products/products.module';
 
 @Module({

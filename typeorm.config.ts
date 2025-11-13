@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-import { Customers } from './src/customers/customers.entity';
-import { Employee } from './src/employee/employee.entity';
-import { Product } from './src/products/products.entity';
+import { Customers } from './src/customers/entity/customers.entity';
+import { Employee } from './src/employee/entity/employee.entity';
+import { Product } from './src/products/entity/products.entity';
 
 export default new DataSource({
   type: 'mysql',
