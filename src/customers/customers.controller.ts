@@ -6,28 +6,27 @@ import { CreateUpdateDTO } from './dto/create-update.dto';
 @Controller('customers')
 export class CustomersController {
     constructor(private readonly customersRepository:CustomersService){}
-
         @Get('/findall')
             findAll():any{
-                return this.customersRepository.findall()
-            }
+            return this.customersRepository.findAll()
+        }
         
         @Get('/findall/:id')
-        findOne(@Param('id')id:number){
+            findOne(@Param('id')id:number){
             return this.customersRepository.findOne(id);
-            }    
+        }    
         @Post('/add')
             create(@Body()customerBody:CreateCustomersDTO){
-                return this.customersRepository.create(customerBody)
-            }
+            return this.customersRepository.create(customerBody)
+        }
             
         @Delete('/:id')
             remove(@Param('id')id:number,){
-                return this.customersRepository.remove(id)
-            }
+            return this.customersRepository.remove(id)
+        }
 
         @Put('/update/:id')
             update(@Body()updateBody:CreateUpdateDTO, @Param('id')id:number){
-                return this.customersRepository.update(id,updateBody)
-            }      
+            return this.customersRepository.update(id,updateBody)
+        }      
 }

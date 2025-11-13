@@ -1,116 +1,51 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Customers } from './customers.entity';
 import { CreateCustomersDTO } from './dto/create-customers.dto';
 import { CreateUpdateDTO } from './dto/create-update.dto';
-import { NotFoundError } from 'rxjs';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Customers } from './customers.entity';
-import { Repository } from 'typeorm';
-
 
 @Injectable()
 export class CustomersService {
-    constructor(@InjectRepository(Customers)
-private customersRepository:Repository <Customers>){}
+  constructor(
+    @InjectRepository(Customers)
+    private readonly customersRepository: Repository<Customers>,
+  ) {}
 
-    findall(): Promise<Customers[]> {
-        return this.customersRepository.find();
-    } 
+  findAll(): Promise<Customers[]> {
+    return this.customersRepository.find();
+  }
 
-    findOne(id: number): Promise<Customers | null>{
-        return this.customersRepository.findOneBy({id});
+  async findOne(id: number): Promise<Customers> {
+    return this.findCustomerById(id);
+  }
+
+  async remove(id: number): Promise<{ message: string }> {
+    await this.findCustomerById(id);
+    await this.customersRepository.delete(id);
+    return { message: 'Cliente removido com sucesso' };
+  }
+
+  async create(customerDto: CreateCustomersDTO): Promise<Customers> {
+    const newCustomer = this.customersRepository.create(customerDto);
+    await this.customersRepository.save(newCustomer);
+    return newCustomer;
+  }
+
+  async update(id: number, updateDto: CreateUpdateDTO): Promise<Customers | null> {
+    await this.findCustomerById(id);
+    await this.customersRepository.update(id, updateDto);
+    return this.customersRepository.findOneBy({ id });
+  }
+
+  /**
+   * Verifica se o cliente existe. Lança NotFoundException se não encontrado.
+   */
+  private async findCustomerById(id: number): Promise<Customers> {
+    const customer = await this.customersRepository.findOneBy({ id });
+    if (!customer) {
+      throw new NotFoundException(`Cliente não encontrado com id ${id}`);
     }
-
-    async remove(id:number): Promise<void>{
-        await this.customersRepository.delete(id);
-    }
-
-    async create(customer:CreateCustomersDTO): Promise<Customers>{
-        const newCustomer = this.customersRepository.create(customer);
-        await this.customersRepository.save(newCustomer);
-
-        return { 'message':'Cliente criado com sucesso' } as any;
-    }
-    update(id:number, updateBody:CreateUpdateDTO): Promise<Customers | null>{
-        return this.customersRepository.update(id, updateBody).then(() => {
-            return this.customersRepository.findOneBy({id});
-        });
-    }
+    return customer;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//         this.customers = [{
-//             "id":0,
-//             "email": "sadsada@gmail.com",
-//             "nome":"ze"
-//         },
-//         {
-//             "id":1,
-//             "email": "dsadsaee@gamil.com",
-//             "nome":"zeluiz"
-//         },
-//         {
-//             "id":2,
-//             "email": "gasnbdsw@gmail.com",
-//             "nome":"zejao"
-//         },
-//     ]
-//     }
-//     findAll(){
-//         return this.customers
-//     }
-//     create(customer:CreateCustomersDTO){
-//         const last_id:number = this.customers[this.customers.length - 1].id
-
-
-        
-//         const newCustomer = {
-//             "id" : last_id + 1,
-//             ...customer
-//         }
-//         this.customers.push(newCustomer);
-//         return {
-//             "message":"Nome e Email Criado"
-//         }
-//     }
-//     remove(id:number){
-//         this.customers = this.customers.filter((customer)=> customer.id != id)
-
-
-//         return {
-//             "message": "customer deleted",
-//             "customer": this.customers
-//         }
-//     }
-
-//     update(id:number,updateBody:CreateUpdateDTO){
-//         const targetId = Number(id);
-//         const findIndex = this.customers.findIndex((customers) => customers.id === targetId)
-
-//             if (findIndex == -1){
-                
-//                     throw new NotFoundError("Customer not found")
-                
-//             }
-//         const arrayAtt = {
-//             "id" : targetId,
-//             ...updateBody
-//         } 
-
-//         this.customers  = this.customers.toSpliced(findIndex,1,arrayAtt)
-//         return {
-//             "message":"a lista foi atualizada",
-//             "lista": this.customers
-//         }
-//     }
-// }   

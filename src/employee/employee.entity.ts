@@ -4,15 +4,17 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 export class Employee{
     @PrimaryGeneratedColumn()
-    id:number;
+        id:number;
 
     @Column()
-    name:string;
+        name:string;
 
     @Column()
-    turno:string;
+        idade:number;
 
     @Column()
-    matricula:number;
+        turno:string;
+
+    @Column()
+        matricula:number;
 }
-    
