@@ -10,9 +10,6 @@ export class Employee{
         name:string;
 
     @Column()
-        idade:number;
-
-    @Column()
         turno:string;
 
     @Column()

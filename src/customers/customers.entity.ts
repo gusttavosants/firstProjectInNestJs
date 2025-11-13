@@ -16,6 +16,4 @@ export class Customers {
     @Column()
         email: string;
 
-    @Column()
-        cpf:number;
 }
