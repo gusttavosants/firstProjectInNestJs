@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Customers } from './customers/entity/customers.entity';
 import { ProductsModule } from './products/products.module';
+import { SaleModule } from './sale/sale.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,7 +22,7 @@ import { ProductsModule } from './products/products.module';
     logging: true,
 }),
   
-  CustomersModule, EmployeeModule, ProductsModule],
+  CustomersModule, EmployeeModule, ProductsModule, SaleModule],
   controllers: [AppController],
   providers: [AppService],
 })

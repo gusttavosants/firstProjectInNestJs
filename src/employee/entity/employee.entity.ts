@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Sale } from "src/sale/entity/sale.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('employee')
 
@@ -14,4 +15,7 @@ export class Employee{
 
     @Column()
         matricula:number;
+    
+    @OneToMany(type=> Sale, sale=>sale.employee)
+        sale:Sale[]
 }
