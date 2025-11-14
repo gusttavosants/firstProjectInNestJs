@@ -1,7 +1,7 @@
-import { Customers } from "src/customers/entity/customers.entity";
-import { Employee } from "src/employee/entity/employee.entity";
-import { Column, Entity, ForeignKey, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { saleProduct } from "./saleProduct.entity";
+import { Customers } from "../../customers/entity/customers.entity";
+import { Employee } from "../../employee/entity/employee.entity";
 
 
 @Entity('sale')
@@ -12,7 +12,7 @@ export class Sale {
     @Column()
     data:Date
 
-    @ManyToOne(type => Customers, customers => customers.sale)
+    @ManyToOne(type => Customers, customers =>customers.sale)
     customers: Customers[]
 
     @ManyToOne(type => Employee, employee=>employee.sale )

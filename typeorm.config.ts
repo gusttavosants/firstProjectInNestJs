@@ -3,7 +3,7 @@ import { Customers } from './src/customers/entity/customers.entity';
 import { Employee } from './src/employee/entity/employee.entity';
 import { Product } from './src/products/entity/products.entity';
 import { saleProduct } from './src/sale/entity/saleProduct.entity';
-import { Sale } from 'src/sale/entity/sale.entity';
+import { Sale } from './src/sale/entity/sale.entity';
 
 export default new DataSource({
   type: 'mysql',
